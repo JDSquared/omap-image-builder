@@ -210,30 +210,7 @@ install_gem_pkgs () {
 install_pip_pkgs () {
 	if [ -f /usr/bin/pip ] ; then
 		echo "Installing pip packages"
-
-		#debian@beaglebone:~$ pip install Adafruit_BBIO
-		#Downloading/unpacking Adafruit-BBIO
-		#  Downloading Adafruit_BBIO-0.0.19.tar.gz
-		#  Running setup.py egg_info for package Adafruit-BBIO
-		#    The required version of distribute (>=0.6.45) is not available,
-		#    and can't be installed while this script is running. Please
-		#    install a more recent version first, using
-		#    'easy_install -U distribute'.
-		#
-		#    (Currently using distribute 0.6.24dev-r0 (/usr/lib/python2.7/dist-packages))
-		#    Complete output from command python setup.py egg_info:
-		#    The required version of distribute (>=0.6.45) is not available,
-		#
-		#and can't be installed while this script is running. Please
-		#
-		#install a more recent version first, using
-		#
-		#'easy_install -U distribute'.
-		#
-		#(Currently using distribute 0.6.24dev-r0 (/usr/lib/python2.7/dist-packages))
-
-		easy_install -U distribute
-		pip install Adafruit_BBIO
+		echo "currently none."
 	fi
 }
 
@@ -397,22 +374,22 @@ early_git_repos () {
 }
 
 install_git_repos () {
-	git_repo="https://github.com/prpplague/Userspace-Arduino"
-	git_target_dir="/opt/source/Userspace-Arduino"
-	git_clone
+	# git_repo="https://github.com/prpplague/Userspace-Arduino"
+	# git_target_dir="/opt/source/Userspace-Arduino"
+	# git_clone
 
-	git_repo="https://github.com/cdsteinkuehler/beaglebone-universal-io.git"
-	git_target_dir="/opt/source/beaglebone-universal-io"
-	git_clone
-	if [ -f ${git_target_dir}/.git/config ] ; then
-		if [ -f ${git_target_dir}/config-pin ] ; then
-			ln -s ${git_target_dir}/config-pin /usr/local/bin/
-		fi
-	fi
+	# git_repo="https://github.com/cdsteinkuehler/beaglebone-universal-io.git"
+	# git_target_dir="/opt/source/beaglebone-universal-io"
+	# git_clone
+	# if [ -f ${git_target_dir}/.git/config ] ; then
+	# 	if [ -f ${git_target_dir}/config-pin ] ; then
+	# 		ln -s ${git_target_dir}/config-pin /usr/local/bin/
+	# 	fi
+	# fi
 
-	git_repo="https://github.com/strahlex/BBIOConfig.git"
-	git_target_dir="/opt/source/BBIOConfig"
-	git_clone
+	# git_repo="https://github.com/strahlex/BBIOConfig.git"
+	# git_target_dir="/opt/source/BBIOConfig"
+	# git_clone
 
 	git_repo="https://github.com/prpplague/fb-test-app.git"
 	git_target_dir="/opt/source/fb-test-app"
@@ -461,18 +438,18 @@ install_build_pkgs () {
 }
 
 other_source_links () {
-	rcn_https="https://rcn-ee.com/repos/git/u-boot-patches"
+	# rcn_https="https://rcn-ee.com/repos/git/u-boot-patches"
 
-	mkdir -p /opt/source/u-boot_${u_boot_release}/
-	wget --directory-prefix="/opt/source/u-boot_${u_boot_release}/" ${rcn_https}/${u_boot_release}/0001-omap3_beagle-uEnv.txt-bootz-n-fixes.patch
-	wget --directory-prefix="/opt/source/u-boot_${u_boot_release}/" ${rcn_https}/${u_boot_release}/0001-am335x_evm-uEnv.txt-bootz-n-fixes.patch
-	mkdir -p /opt/source/u-boot_${u_boot_release_x15}/
-	wget --directory-prefix="/opt/source/u-boot_${u_boot_release_x15}/" ${rcn_https}/${u_boot_release_x15}/0001-beagle_x15-uEnv.txt-bootz-n-fixes.patch
+	# mkdir -p /opt/source/u-boot_${u_boot_release}/
+	# wget --directory-prefix="/opt/source/u-boot_${u_boot_release}/" ${rcn_https}/${u_boot_release}/0001-omap3_beagle-uEnv.txt-bootz-n-fixes.patch
+	# wget --directory-prefix="/opt/source/u-boot_${u_boot_release}/" ${rcn_https}/${u_boot_release}/0001-am335x_evm-uEnv.txt-bootz-n-fixes.patch
+	# mkdir -p /opt/source/u-boot_${u_boot_release_x15}/
+	# wget --directory-prefix="/opt/source/u-boot_${u_boot_release_x15}/" ${rcn_https}/${u_boot_release_x15}/0001-beagle_x15-uEnv.txt-bootz-n-fixes.patch
 
-	echo "u-boot_${u_boot_release} : /opt/source/u-boot_${u_boot_release}" >> /opt/source/list.txt
-	echo "u-boot_${u_boot_release_x15} : /opt/source/u-boot_${u_boot_release_x15}" >> /opt/source/list.txt
+	# echo "u-boot_${u_boot_release} : /opt/source/u-boot_${u_boot_release}" >> /opt/source/list.txt
+	# echo "u-boot_${u_boot_release_x15} : /opt/source/u-boot_${u_boot_release_x15}" >> /opt/source/list.txt
 
-	chown -R ${rfs_username}:${rfs_username} /opt/source/
+	# chown -R ${rfs_username}:${rfs_username} /opt/source/
 }
 
 unsecure_root () {
