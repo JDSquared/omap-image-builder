@@ -96,6 +96,18 @@ setup_system () {
 	echo "" >> /etc/securetty
 	echo "#USB Gadget Serial Port" >> /etc/securetty
 	echo "ttyGS0" >> /etc/securetty
+
+#	this is now done in the choot, need to double check the mode..
+#	# Enable all users to read hidraw devices
+#	cat <<- EOF > /etc/udev/rules.d/99-hdiraw.rules
+#		SUBSYSTEM=="hidraw", MODE="0644"
+#	EOF
+
+	# Enable PAM for ssh links
+	# Fixes an issue where users cannot change ulimits when logged in via
+	# ssh, which causes some Machinekit functions to fail
+	sed -i 's/^UsePAM.*$/UsePam yes/' /etc/ssh/sshd_config
+
 }
 
 setup_desktop () {
@@ -147,6 +159,12 @@ setup_desktop () {
 		echo "wallpaper_mode=1" >> ${wfile}
 		echo "wallpaper=/opt/desktop-background.${ext}" >> ${wfile}
 		chown -R ${rfs_username}:${rfs_username} /home/${rfs_username}/.config/
+	fi
+
+	# Switch to Machinekit desktop background
+	wfile="/home/${rfs_username}/.config/pcmanfm-qt/lxqt/settings.conf"
+	if [ -f ${wfile} ] ; then
+		sed -i -e "s:^Wallpaper=.*\$:Wallpaper=${rfs_desktop_background}:" ${wfile}
 	fi
 
 	#Disable dpms mode and screen blanking
@@ -515,7 +533,8 @@ unsecure_root () {
 	if [ -f /etc/ssh/sshd_config ] ; then
 		#Make ssh root@beaglebone work..
 		sed -i -e 's:PermitEmptyPasswords no:PermitEmptyPasswords yes:g' /etc/ssh/sshd_config
-		sed -i -e 's:UsePAM yes:UsePAM no:g' /etc/ssh/sshd_config
+		#Machinekit requires UsePAM yes!
+		#sed -i -e 's:UsePAM yes:UsePAM no:g' /etc/ssh/sshd_config
 		#Starting with Jessie:
 		sed -i -e 's:PermitRootLogin without-password:PermitRootLogin yes:g' /etc/ssh/sshd_config
 	fi
