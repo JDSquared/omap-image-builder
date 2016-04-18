@@ -538,7 +538,7 @@ is_this_qemu
 
 early_git_repos
 setup_system
-setup_desktop
+#setup_desktop
 
 install_gem_pkgs
 install_pip_pkgs
