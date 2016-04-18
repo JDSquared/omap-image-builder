@@ -272,16 +272,16 @@ install_pip_pkgs () {
 				#Fixed in git, however not pushed to pip yet...(use git and install)
 				#libpython2.7-dev
 				#pip install Adafruit_BBIO
-
-				git_repo="https://github.com/adafruit/adafruit-beaglebone-io-python.git"
-				git_target_dir="/opt/source/adafruit-beaglebone-io-python"
-				git_clone
-				if [ -f ${git_target_dir}/.git/config ] ; then
-					cd ${git_target_dir}/
-					python setup.py install
-				fi
-				pip install --upgrade PyBBIO
-				pip install iw_parse
+				echo currently none
+				# git_repo="https://github.com/adafruit/adafruit-beaglebone-io-python.git"
+				# git_target_dir="/opt/source/adafruit-beaglebone-io-python"
+				# git_clone
+				# if [ -f ${git_target_dir}/.git/config ] ; then
+				# 	cd ${git_target_dir}/
+				# 	python setup.py install
+				# fi
+				# pip install --upgrade PyBBIO
+				# pip install iw_parse
 			fi
 		fi
 	fi
