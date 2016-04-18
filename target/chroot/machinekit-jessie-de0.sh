@@ -551,6 +551,6 @@ if [ -f /usr/bin/git ] ; then
 	git config --global --unset-all user.name
 fi
 #install_build_pkgs
-other_source_links
+#other_source_links
 unsecure_root
 #
