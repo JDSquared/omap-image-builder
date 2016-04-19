@@ -204,6 +204,16 @@ local_bootloader () {
 	fi
 }
 
+extract_bootloader_from_rootfs () {
+        echo ""
+	echo "Using Bootloader extracted from rootfs"
+	echo "--------------------------------------"
+	mkdir -p ${TEMPDIR}/dl/
+	UBOOT=${boot_name_in_rootfs##*/}
+	tar --verbose -xf "${DIR}/${ROOTFS}"  ${boot_name_in_rootfs} -O >${TEMPDIR}/dl/${UBOOT}
+	echo "UBOOT Bootloader from rootfs:${boot_name_in_rootfs} : ${UBOOT}"
+}
+
 dl_bootloader () {
 	echo ""
 	echo "Downloading Device's Bootloader"
@@ -1741,6 +1751,10 @@ if [ "${spl_name}" ] || [ "${boot_name}" ] ; then
 	else
 		dl_bootloader
 	fi
+else
+    if [ ! "${boot_name_in_rootfs}" = "x" ] ; then
+        extract_bootloader_from_rootfs
+    fi
 fi
 
 if [ ! "x${build_img_file}" = "xenable" ] ; then
