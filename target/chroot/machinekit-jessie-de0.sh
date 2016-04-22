@@ -534,6 +534,18 @@ unsecure_root () {
 	fi
 }
 
+disable_uio_rules () {
+
+    # deal with systemd-udevd looping problem, sledgehammer style
+    # https://github.com/machinekit/machinekit/issues/915
+    if [ -f /etc/udev/rules.d/uio.rules ] ; then
+	mv  /etc/udev/rules.d/uio.rules  /etc/udev/rules.d/uio.rules.DISABLED
+	echo "disabled - see https://github.com/machinekit/machinekit/issues/915" >/etc/udev/rules.d/uio.README
+    fi
+}
+
+
+
 is_this_qemu
 
 early_git_repos
@@ -552,5 +564,6 @@ if [ -f /usr/bin/git ] ; then
 fi
 #install_build_pkgs
 #other_source_links
+disable_uio_rules
 unsecure_root
 #
