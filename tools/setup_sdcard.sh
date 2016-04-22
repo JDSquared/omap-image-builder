@@ -1,4 +1,5 @@
 #!/bin/bash -e
+set -x
 #
 # Copyright (c) 2009-2015 Robert Nelson <robertcnelson@gmail.com>
 # Copyright (c) 2010 Mario Di Francesco <mdf-code@digitalexile.it>
