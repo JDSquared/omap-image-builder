@@ -913,6 +913,17 @@ kernel_detection () {
 		echo "Debug: image has: v${xenomai_dt_kernel}"
 		has_xenomai_kernel="enable"
 	fi
+
+	unset has_socfpga_kernel
+	unset check
+	check=$(ls "${dir_check}" | grep vmlinuz- | grep ltsi-rt | head -n 1)
+	if [ "x${check}" != "x" ] ; then
+		socfpga_dt_kernel=$(ls "${dir_check}" | grep vmlinuz- | grep ltsi-rt | head -n 1 | awk -F'vmlinuz-' '{print $2}')
+		echo "Debug: image has: v${socfpga_dt_kernel}"
+		has_socfpga_kernel="enable"
+	fi
+
+
 }
 
 kernel_select () {
@@ -959,6 +970,10 @@ kernel_select () {
 				select_kernel="${armv7_kernel}"
 			fi
 		fi
+	fi
+
+	if [ "x${conf_kernel}" = "xsocfpga" ] ; then
+	    select_kernel=${socfpga_dt_kernel}
 	fi
 
 	if [ "${select_kernel}" ] ; then
