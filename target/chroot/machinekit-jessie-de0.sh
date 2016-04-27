@@ -534,6 +534,33 @@ unsecure_root () {
 	fi
 }
 
+install_machinekit_dev() {
+
+    # clone the machinekit repo to /home/${rfs_username}
+    git_repo="https://github.com/machinekit/machinekit"
+    git_target_dir="/home/${rfs_username}/machinekit"
+    git_clone_full
+
+    # do source install steps as per docs
+    sudo apt-get install git dpkg-dev
+    sudo apt-get install --no-install-recommends devscripts equivs
+
+    cd ${git_target_dir}
+    debian/configure -pr
+    sudo mk-build-deps -ir
+    cd src
+    ./autogen.sh
+    ./configure
+
+    # build it?
+    # make OPT=-O0
+
+    # fix perms
+    chown -R ${rfs_username}:${rfs_username} ${git_target_dir}
+
+    # if build in chroot:
+    # make setuid
+}
 
 is_this_qemu
 
@@ -553,5 +580,7 @@ if [ -f /usr/bin/git ] ; then
 fi
 #install_build_pkgs
 #other_source_links
+install_machinekit_dev
+
 unsecure_root
 #
