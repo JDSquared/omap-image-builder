@@ -410,22 +410,22 @@ early_git_repos () {
 }
 
 install_git_repos () {
-	git_repo="https://github.com/prpplague/Userspace-Arduino"
-	git_target_dir="/opt/source/Userspace-Arduino"
-	git_clone
+	# git_repo="https://github.com/prpplague/Userspace-Arduino"
+	# git_target_dir="/opt/source/Userspace-Arduino"
+	# git_clone
 
-	git_repo="https://github.com/cdsteinkuehler/beaglebone-universal-io.git"
-	git_target_dir="/opt/source/beaglebone-universal-io"
-	git_clone
-	if [ -f ${git_target_dir}/.git/config ] ; then
-		if [ -f ${git_target_dir}/config-pin ] ; then
-			ln -s ${git_target_dir}/config-pin /usr/local/bin/
-		fi
-	fi
+	# git_repo="https://github.com/cdsteinkuehler/beaglebone-universal-io.git"
+	# git_target_dir="/opt/source/beaglebone-universal-io"
+	# git_clone
+	# if [ -f ${git_target_dir}/.git/config ] ; then
+	# 	if [ -f ${git_target_dir}/config-pin ] ; then
+	# 		ln -s ${git_target_dir}/config-pin /usr/local/bin/
+	# 	fi
+	# fi
 
-	git_repo="https://github.com/strahlex/BBIOConfig.git"
-	git_target_dir="/opt/source/BBIOConfig"
-	git_clone
+	# git_repo="https://github.com/strahlex/BBIOConfig.git"
+	# git_target_dir="/opt/source/BBIOConfig"
+	# git_clone
 
 	git_repo="https://github.com/prpplague/fb-test-app.git"
 	git_target_dir="/opt/source/fb-test-app"
@@ -438,61 +438,61 @@ install_git_repos () {
 		cd /
 	fi
 
-	#am335x-pru-package
-	if [ -f /usr/include/prussdrv.h ] ; then
-		git_repo="https://github.com/biocode3D/prufh.git"
-		git_target_dir="/opt/source/prufh"
-		git_clone
-		if [ -f ${git_target_dir}/.git/config ] ; then
-			cd ${git_target_dir}/
-			if [ -f /usr/bin/make ] ; then
-				make LIBDIR_APP_LOADER=/usr/lib/ INCDIR_APP_LOADER=/usr/include
-			fi
-			cd /
-		fi
-	fi
+	# #am335x-pru-package
+	# if [ -f /usr/include/prussdrv.h ] ; then
+	# 	git_repo="https://github.com/biocode3D/prufh.git"
+	# 	git_target_dir="/opt/source/prufh"
+	# 	git_clone
+	# 	if [ -f ${git_target_dir}/.git/config ] ; then
+	# 		cd ${git_target_dir}/
+	# 		if [ -f /usr/bin/make ] ; then
+	# 			make LIBDIR_APP_LOADER=/usr/lib/ INCDIR_APP_LOADER=/usr/include
+	# 		fi
+	# 		cd /
+	# 	fi
+	# fi
 
 	git_repo="https://github.com/RobertCNelson/dtb-rebuilder.git"
 	git_branch="4.1-ti"
 	git_target_dir="/opt/source/dtb-${git_branch}"
 	git_clone_branch
 
-	git_repo="https://github.com/beagleboard/bb.org-overlays"
-	git_target_dir="/opt/source/bb.org-overlays"
-	git_clone
-	if [ -f ${git_target_dir}/.git/config ] ; then
-		cd ${git_target_dir}/
-		if [ ! "x${repo_rcnee_pkg_version}" = "x" ] ; then
-			is_kernel=$(echo ${repo_rcnee_pkg_version} | grep 4.1 || true)
-			if [ ! "x${is_kernel}" = "x" ] ; then
-				if [ -f /usr/bin/make ] ; then
-					make
-					make install
-					update-initramfs -u -k ${repo_rcnee_pkg_version}
-					make clean
-				fi
-			fi
-		fi
-	fi
+	# git_repo="https://github.com/beagleboard/bb.org-overlays"
+	# git_target_dir="/opt/source/bb.org-overlays"
+	# git_clone
+	# if [ -f ${git_target_dir}/.git/config ] ; then
+	# 	cd ${git_target_dir}/
+	# 	if [ ! "x${repo_rcnee_pkg_version}" = "x" ] ; then
+	# 		is_kernel=$(echo ${repo_rcnee_pkg_version} | grep 4.1 || true)
+	# 		if [ ! "x${is_kernel}" = "x" ] ; then
+	# 			if [ -f /usr/bin/make ] ; then
+	# 				make
+	# 				make install
+	# 				update-initramfs -u -k ${repo_rcnee_pkg_version}
+	# 				make clean
+	# 			fi
+	# 		fi
+	# 	fi
+	# fi
 
-	git_repo="https://github.com/ungureanuvladvictor/BBBlfs"
-	git_target_dir="/opt/source/BBBlfs"
-	git_clone
-	if [ -f ${git_target_dir}/.git/config ] ; then
-		cd ${git_target_dir}/
-		if [ -f /usr/bin/make ] ; then
-			./autogen.sh
-			./configure
-			make
-		fi
-	fi
+	# git_repo="https://github.com/ungureanuvladvictor/BBBlfs"
+	# git_target_dir="/opt/source/BBBlfs"
+	# git_clone
+	# if [ -f ${git_target_dir}/.git/config ] ; then
+	# 	cd ${git_target_dir}/
+	# 	if [ -f /usr/bin/make ] ; then
+	# 		./autogen.sh
+	# 		./configure
+	# 		make
+	# 	fi
+	# fi
 
-	#am335x-pru-package
-	if [ -f /usr/include/prussdrv.h ] ; then
-		git_repo="git://git.ti.com/pru-software-support-package/pru-software-support-package.git"
-		git_target_dir="/opt/source/pru-software-support-package"
-		git_clone
-	fi
+	# #am335x-pru-package
+	# if [ -f /usr/include/prussdrv.h ] ; then
+	# 	git_repo="git://git.ti.com/pru-software-support-package/pru-software-support-package.git"
+	# 	git_target_dir="/opt/source/pru-software-support-package"
+	# 	git_clone
+	# fi
 }
 
 install_build_pkgs () {
