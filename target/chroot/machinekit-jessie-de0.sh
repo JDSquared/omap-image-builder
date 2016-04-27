@@ -536,6 +536,10 @@ unsecure_root () {
 
 install_machinekit_dev() {
 
+    cd "/home/${rfs_username}"
+    echo ". machinekit/scripts/rip-environment" >> .bashrc
+    echo "echo environment set up for RIP build in /home/${rfs_username}/machinekit/src" >>.bashrc
+
     # clone the machinekit repo to /home/${rfs_username}
     git_repo="https://github.com/machinekit/machinekit"
     git_target_dir="/home/${rfs_username}/machinekit"
@@ -546,22 +550,29 @@ install_machinekit_dev() {
     apt-get install --yes --no-install-recommends devscripts equivs
 
     cd ${git_target_dir}
-#    debian/configure -pr
-#    mk-build-deps
-#    DEBIAN_FRONTEND=noninteractive dpkg -i ./machinekit-build-deps*.deb
-#    rm -f ./machinekit-build-deps*.deb
+
+    # all rolled into package lists
+    #    debian/configure -pr
+    #    mk-build-deps
+    #    DEBIAN_FRONTEND=noninteractive dpkg -i ./machinekit-build-deps*.deb
+    #    rm -f ./machinekit-build-deps*.deb
+
     cd src
     ./autogen.sh
     ./configure
 
-    # build it?
-    # make OPT=-O0
+    # build it
+    make OPT=-O0 -j4
 
     # fix perms
-    chown -R ${rfs_username}:${rfs_username} ${git_target_dir}
+    chown -R ${rfs_username}:${rfs_username} ${git_target_dir} /home/${rfs_username}/.bashrc
 
-    # if build in chroot:
-    # make setuid
+    # except what is needed
+    sudo make setuid
+}
+
+remove_machinekit_pkgs() {
+    apt remove -y machinekit machinekit-dev machinekit-rt-preempt
 }
 
 is_this_qemu
@@ -583,6 +594,6 @@ fi
 #install_build_pkgs
 #other_source_links
 install_machinekit_dev
-
+remove_machinekit_pkgs # so the runtime deps are there
 unsecure_root
 #
