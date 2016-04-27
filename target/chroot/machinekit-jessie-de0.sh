@@ -542,12 +542,14 @@ install_machinekit_dev() {
     git_clone_full
 
     # do source install steps as per docs
-    sudo apt-get install git dpkg-dev
-    sudo apt-get install --no-install-recommends devscripts equivs
+    apt-get install git dpkg-dev
+    apt-get install --no-install-recommends devscripts equivs
 
     cd ${git_target_dir}
     debian/configure -pr
-    sudo mk-build-deps -ir
+    mk-build-deps
+    DEBIAN_FRONTEND=noninteractive dpkg -i ./machinekit-build-deps*.deb
+    rm -f ./machinekit-build-deps*.deb
     cd src
     ./autogen.sh
     ./configure
