@@ -1228,14 +1228,14 @@ populate_rootfs () {
 
 		if [ "x${option_ro_root}" = "xenable" ] ; then
 			echo "#With read only rootfs, we need to boot once as rw..." >> ${wfile}
-			echo "${rootfs_drive}  /  ext2  noatime,errors=remount-ro  0  1" >> ${wfile}
+			echo "${rootfs_drive}  /  ext2  lazytime,errors=remount-ro  0  1" >> ${wfile}
 			echo "#" >> ${wfile}
 			echo "#Switch to read only rootfs:" >> ${wfile}
-			echo "#${rootfs_drive}  /  ext2  noatime,ro,errors=remount-ro  0  1" >> ${wfile}
+			echo "#${rootfs_drive}  /  ext2  lazytime,ro,errors=remount-ro  0  1" >> ${wfile}
 			echo "#" >> ${wfile}
-			echo "${rootfs_var_drive}  /var  ${ROOTFS_TYPE}  noatime  0  2" >> ${wfile}
+			echo "${rootfs_var_drive}  /var  ${ROOTFS_TYPE}  lazytime  0  2" >> ${wfile}
 		else
-			echo "${rootfs_drive}  /  ${ROOTFS_TYPE}  noatime,errors=remount-ro  0  1" >> ${wfile}
+			echo "${rootfs_drive}  /  ${ROOTFS_TYPE}  lazytime,errors=remount-ro  0  1" >> ${wfile}
 		fi
 
 		echo "debugfs  /sys/kernel/debug  debugfs  defaults  0  0" >> ${wfile}
