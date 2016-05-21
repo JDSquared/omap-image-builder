@@ -1,0 +1,24 @@
+# current kernel name
+# if a matching initrd exists, it will be used
+# rename initrd file to disable
+#
+#uname_r=3.10.37-ltsi-rt37-05841-g81c6be3
+
+# rootfs identifed by uuid
+#uuid=
+
+# override path to device tree binary
+dtb=socfpga_cyclone5_de0_sockit.dtb
+
+# overide path to FPGA bitfile
+# defaults to /lib/firmware/socfpga/soc_system.rbf
+# setting to fpgaimage= will disable boot time FPGA loading
+#fpgaimage=
+
+# command line tail
+cmdline=coherent_pool=1M quiet
+
+# verbose boot
+#cmdline=coherent_pool=1M earlyprintk
+
+
