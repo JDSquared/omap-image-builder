@@ -1144,19 +1144,27 @@ populate_rootfs () {
 
 	unset kms_video
 
-	drm_device_identifier=${drm_device_identifier:-"HDMI-A-1"}
-	drm_device_timing=${drm_device_timing:-"1024x768@60e"}
-	if [ "x${drm_read_edid_broken}" = "xenable" ] ; then
+	if [ "x${conf_board}" = "xde0_nano" ]  ; then
+	    #
+	    if [ ! "x${has_post_uenvtxt}" = "x" ] ; then
+		cat "${DIR}/post-uEnv.txt" >> ${wfile}
+		echo "" >> ${wfile}
+	    fi
+	else
+	    drm_device_identifier=${drm_device_identifier:-"HDMI-A-1"}
+	    drm_device_timing=${drm_device_timing:-"1024x768@60e"}
+	    if [ "x${drm_read_edid_broken}" = "xenable" ] ; then
 		cmdline="${cmdline} video=${drm_device_identifier}:${drm_device_timing}"
 		echo "cmdline=${cmdline}" >> ${wfile}
 		echo "" >> ${wfile}
-	else
+	    else
 		echo "cmdline=${cmdline}" >> ${wfile}
 		echo "" >> ${wfile}
 
 		echo "#In the event of edid real failures, uncomment this next line:" >> ${wfile}
 		echo "#cmdline=${cmdline} video=${drm_device_identifier}:${drm_device_timing}" >> ${wfile}
 		echo "" >> ${wfile}
+	    fi
 	fi
 
 	if [ "x${conf_board}" = "xam335x_boneblack" ] || [ "x${conf_board}" = "xam335x_evm" ] ; then
