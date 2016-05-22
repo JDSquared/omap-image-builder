@@ -571,6 +571,11 @@ install_machinekit_dev() {
     sudo make setuid
 }
 
+add_uio_pdrv_genirq_params()
+{
+    echo options uio_pdrv_genirq of_id="hm2reg_io,generic-uio,ui_pdrv" > /etc/modprobe.d/uiohm2.conf
+}
+
 remove_machinekit_pkgs() {
     apt remove -y machinekit machinekit-dev machinekit-rt-preempt
 }
@@ -595,5 +600,6 @@ fi
 #other_source_links
 install_machinekit_dev
 remove_machinekit_pkgs # so the runtime deps are there
+add_uio_pdrv_genirq_params
 unsecure_root
 #
