@@ -553,7 +553,8 @@ install_machinekit_dev() {
 
     # all rolled into package lists
     debian/configure -pr
-    sudo mk-build-deps -ir
+    #sudo mk-build-deps -ir
+    sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -qq --no-install-recommends"
     #    DEBIAN_FRONTEND=noninteractive dpkg -i ./machinekit-build-deps*.deb
     #    rm -f ./machinekit-build-deps*.deb
 
