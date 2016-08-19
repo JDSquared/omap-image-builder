@@ -551,12 +551,8 @@ install_machinekit_dev() {
 
     cd ${git_target_dir}
 
-    # all rolled into package lists
     debian/configure -pr
-    #sudo mk-build-deps -ir
     sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -qq --no-install-recommends"
-    #    DEBIAN_FRONTEND=noninteractive dpkg -i ./machinekit-build-deps*.deb
-    #    rm -f ./machinekit-build-deps*.deb
 
     cd src
     ./autogen.sh
@@ -574,7 +570,7 @@ install_machinekit_dev() {
 
 add_uio_pdrv_genirq_params()
 {
-    echo options uio_pdrv_genirq of_id="hm2reg_io,generic-uio,ui_pdrv" > /etc/modprobe.d/uiohm2.conf
+    echo options uio_pdrv_genirq of_id="generic-uio,ui_pdrv" > /etc/modprobe.d/uiohm2.conf
 }
 
 remove_machinekit_pkgs() {
