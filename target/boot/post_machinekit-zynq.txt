@@ -1,0 +1,7 @@
+#Docs: http://elinux.org/Beagleboard:U-boot_partitioning_layout_2.0
+
+uname_r=4.4.0-rt3-jd2-g1afba34
+
+dtb=zynq-zturn.dtb
+
+cmdline=
