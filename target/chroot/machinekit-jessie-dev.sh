@@ -410,6 +410,9 @@ early_git_repos () {
 }
 
 install_git_repos () {
+
+        echo currently none
+
 	# git_repo="https://github.com/prpplague/Userspace-Arduino"
 	# git_target_dir="/opt/source/Userspace-Arduino"
 	# git_clone
