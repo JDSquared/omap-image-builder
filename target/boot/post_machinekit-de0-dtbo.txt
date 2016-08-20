@@ -1,0 +1,9 @@
+# rootfs identifed by uuid
+#uuid=
+
+
+# command line tail
+cmdline=quiet
+
+# verbose boot
+#cmdline=earlyprintk
