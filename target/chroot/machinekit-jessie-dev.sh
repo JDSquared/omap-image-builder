@@ -537,11 +537,8 @@ install_machinekit_dev() {
 
     cd ${git_target_dir}
 
-    # all rolled into package lists
-    #    debian/configure -pr
-    #    mk-build-deps
-    #    DEBIAN_FRONTEND=noninteractive dpkg -i ./machinekit-build-deps*.deb
-    #    rm -f ./machinekit-build-deps*.deb
+    debian/configure -pr
+    sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -qq --no-install-recommends"
 
     cd src
     ./autogen.sh
