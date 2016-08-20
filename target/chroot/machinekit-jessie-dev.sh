@@ -566,6 +566,11 @@ remove_machinekit_pkgs() {
     apt remove -y machinekit machinekit-dev machinekit-rt-preempt
 }
 
+symlink_dtbo() {
+    # keeps u-boot-xlnx happy
+    ln -s /usr/lib/linux-image-zynq-rt /boot/dtbs
+}
+
 is_this_qemu
 
 early_git_repos
@@ -587,5 +592,6 @@ fi
 install_machinekit_dev
 remove_machinekit_pkgs # so the runtime deps are there
 add_uio_pdrv_genirq_params
+symlink_dtbo
 unsecure_root
 #
