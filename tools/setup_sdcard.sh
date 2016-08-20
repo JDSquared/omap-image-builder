@@ -1076,13 +1076,14 @@ populate_rootfs () {
 
 	dir_check="${TEMPDIR}/disk/boot/"
 	kernel_detection
-	kernel_select
+
 
 	wfile="${TEMPDIR}/disk/boot/uEnv.txt"
 	echo "#Docs: http://elinux.org/Beagleboard:U-boot_partitioning_layout_2.0" > ${wfile}
 	echo "" >> ${wfile}
 
 	if [ "x${kernel_override}" = "x" ] ; then
+                kernel_select
 		echo "uname_r=${select_kernel}" >> ${wfile}
 	else
 		echo "uname_r=${kernel_override}" >> ${wfile}
