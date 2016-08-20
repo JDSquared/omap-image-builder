@@ -571,7 +571,16 @@ symlink_dtbo() {
     ln -s /usr/lib/linux-image-zynq-rt /boot/dtbs
 }
 
-is_this_qemu
+set_governor() {
+# https://github.com/machinekit/mksocfpga/issues/20#issuecomment-241215541
+cat <<EOFcpufrequtils >>/etc/default/cpufrequtils
+# valid values: userspace conservative powersave ondemand performance
+# get them from cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
+GOVERNOR="performance"
+EOFcpufrequtils
+}
+
+is_this_qemu q
 
 early_git_repos
 setup_system
@@ -593,5 +602,6 @@ install_machinekit_dev
 remove_machinekit_pkgs # so the runtime deps are there
 add_uio_pdrv_genirq_params
 symlink_dtbo
+set_governor
 unsecure_root
 #
