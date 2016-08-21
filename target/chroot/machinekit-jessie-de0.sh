@@ -93,8 +93,8 @@ setup_system () {
 	fi
 
 	echo "" >> /etc/securetty
-	echo "#USB Gadget Serial Port" >> /etc/securetty
-	echo "ttyGS0" >> /etc/securetty
+	echo "#zturn USB console Port" >> /etc/securetty
+	echo "ttyPS0" >> /etc/securetty
 
 #	this is now done in the choot, need to double check the mode..
 #	# Enable all users to read hidraw devices
@@ -232,8 +232,8 @@ setup_desktop () {
 		echo "[WiFi]" >> ${wfile}
 		echo "Enable=true" >> ${wfile}
 		echo "Tethering=true" >> ${wfile}
-		echo "Tethering.Identifier=BeagleBone" >> ${wfile}
-		echo "Tethering.Passphrase=BeagleBone" >> ${wfile}
+		echo "Tethering.Identifier=mksocfgpa" >> ${wfile}
+		echo "Tethering.Passphrase=mksocfgpa" >> ${wfile}
 		echo "" >> ${wfile}
 		echo "[Gadget]" >> ${wfile}
 		echo "Enable=false" >> ${wfile}
@@ -410,6 +410,9 @@ early_git_repos () {
 }
 
 install_git_repos () {
+
+        echo currently none
+
 	# git_repo="https://github.com/prpplague/Userspace-Arduino"
 	# git_target_dir="/opt/source/Userspace-Arduino"
 	# git_clone
@@ -427,16 +430,16 @@ install_git_repos () {
 	# git_target_dir="/opt/source/BBIOConfig"
 	# git_clone
 
-	git_repo="https://github.com/prpplague/fb-test-app.git"
-	git_target_dir="/opt/source/fb-test-app"
-	git_clone
-	if [ -f ${git_target_dir}/.git/config ] ; then
-		cd ${git_target_dir}/
-		if [ -f /usr/bin/make ] ; then
-			make
-		fi
-		cd /
-	fi
+	# git_repo="https://github.com/prpplague/fb-test-app.git"
+	# git_target_dir="/opt/source/fb-test-app"
+	# git_clone
+	# if [ -f ${git_target_dir}/.git/config ] ; then
+	# 	cd ${git_target_dir}/
+	# 	if [ -f /usr/bin/make ] ; then
+	# 		make
+	# 	fi
+	# 	cd /
+	# fi
 
 	# #am335x-pru-package
 	# if [ -f /usr/include/prussdrv.h ] ; then
@@ -452,10 +455,10 @@ install_git_repos () {
 	# 	fi
 	# fi
 
-	git_repo="https://github.com/RobertCNelson/dtb-rebuilder.git"
-	git_branch="4.1-ti"
-	git_target_dir="/opt/source/dtb-${git_branch}"
-	git_clone_branch
+	# git_repo="https://github.com/RobertCNelson/dtb-rebuilder.git"
+	# git_branch="4.1-ti"
+	# git_target_dir="/opt/source/dtb-${git_branch}"
+	# git_clone_branch
 
 	# git_repo="https://github.com/beagleboard/bb.org-overlays"
 	# git_target_dir="/opt/source/bb.org-overlays"
@@ -500,20 +503,6 @@ install_build_pkgs () {
 	cd /
 }
 
-other_source_links () {
-	rcn_https="https://rcn-ee.com/repos/git/u-boot-patches"
-
-	mkdir -p /opt/source/u-boot_${u_boot_release}/
-	wget --directory-prefix="/opt/source/u-boot_${u_boot_release}/" ${rcn_https}/${u_boot_release}/0001-omap3_beagle-uEnv.txt-bootz-n-fixes.patch
-	wget --directory-prefix="/opt/source/u-boot_${u_boot_release}/" ${rcn_https}/${u_boot_release}/0001-am335x_evm-uEnv.txt-bootz-n-fixes.patch
-	mkdir -p /opt/source/u-boot_${u_boot_release_x15}/
-	wget --directory-prefix="/opt/source/u-boot_${u_boot_release_x15}/" ${rcn_https}/${u_boot_release_x15}/0001-beagle_x15-uEnv.txt-bootz-n-fixes.patch
-
-	echo "u-boot_${u_boot_release} : /opt/source/u-boot_${u_boot_release}" >> /opt/source/list.txt
-	echo "u-boot_${u_boot_release_x15} : /opt/source/u-boot_${u_boot_release_x15}" >> /opt/source/list.txt
-
-	chown -R ${rfs_username}:${rfs_username} /opt/source/
-}
 
 unsecure_root () {
 	root_password=$(cat /etc/shadow | grep root | awk -F ':' '{print $2}')
@@ -559,7 +548,7 @@ install_machinekit_dev() {
     ./configure
 
     # build it
-    make OPT=-O0 -j4
+    make -j4
 
     # fix perms
     chown -R ${rfs_username}:${rfs_username} ${git_target_dir} /home/${rfs_username}/.bashrc
@@ -577,7 +566,21 @@ remove_machinekit_pkgs() {
     apt remove -y machinekit machinekit-dev machinekit-rt-preempt
 }
 
-is_this_qemu
+symlink_dtbo() {
+    # keeps u-boot-xlnx happy
+    ln -s /usr/lib/linux-image-zynq-rt /boot/dtbs
+}
+
+set_governor() {
+# https://github.com/machinekit/mksocfpga/issues/20#issuecomment-241215541
+cat <<EOFcpufrequtils >>/etc/default/cpufrequtils
+# valid values: userspace conservative powersave ondemand performance
+# get them from cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
+GOVERNOR="performance"
+EOFcpufrequtils
+}
+
+is_this_qemu q
 
 early_git_repos
 setup_system
@@ -598,5 +601,7 @@ fi
 install_machinekit_dev
 remove_machinekit_pkgs # so the runtime deps are there
 #add_uio_pdrv_genirq_params
+#symlink_dtbo
+set_governor
 unsecure_root
 #
