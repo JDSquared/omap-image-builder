@@ -571,6 +571,11 @@ symlink_dtbo() {
     ln -s /usr/lib/linux-image-zynq-rt /boot/dtbs
 }
 
+add_uboot_to_fstab() {
+    sudo sh -c "echo '/dev/mmcblk0p1  /boot/uboot  auto  defaults  0  2' >> /etc/fstab"
+}
+
+
 set_governor() {
 # https://github.com/machinekit/mksocfpga/issues/20#issuecomment-241215541
 cat <<EOFcpufrequtils >>/etc/default/cpufrequtils
@@ -602,6 +607,7 @@ install_machinekit_dev
 remove_machinekit_pkgs # so the runtime deps are there
 #add_uio_pdrv_genirq_params
 symlink_dtbo
+add_uboot_to_fstab
 set_governor
 unsecure_root
 #
