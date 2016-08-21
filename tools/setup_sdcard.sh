@@ -204,6 +204,16 @@ local_bootloader () {
 	fi
 }
 
+extract_bootloader_from_rootfs () {
+        echo ""
+	echo "Using Bootloader extracted from rootfs"
+	echo "--------------------------------------"
+	mkdir -p ${TEMPDIR}/dl/
+	UBOOT=${boot_name_in_rootfs##*/}
+	tar --verbose -xf "${DIR}/${ROOTFS}"  ${boot_name_in_rootfs} -O >${TEMPDIR}/dl/${UBOOT}
+	echo "UBOOT Bootloader from rootfs:${boot_name_in_rootfs} : ${UBOOT}"
+}
+
 dl_bootloader () {
 	echo ""
 	echo "Downloading Device's Bootloader"
@@ -478,9 +488,9 @@ dd_uboot_boot () {
 		uboot_blob="${UBOOT}"
 	fi
 
-	echo "${uboot_name}: dd if=${uboot_blob} of=${media} ${dd_uboot}"
+	echo "${uboot_name}: dd if=${uboot_blob} of=${dd_uboot_partiton} ${dd_uboot}"
 	echo "-----------------------------"
-	dd if=${TEMPDIR}/dl/${uboot_blob} of=${media} ${dd_uboot}
+	dd if=${TEMPDIR}/dl/${uboot_blob} of=${dd_uboot_partiton}} ${dd_uboot}
 	echo "-----------------------------"
 }
 
@@ -625,6 +635,9 @@ create_partitions () {
 	unset bootloader_installed
 	unset sfdisk_gpt
 
+	#default destination for dd_spl_uboot_boot and dd_uboot_boot
+	dd_uboot_partiton="${media}"
+
 	media_boot_partition=1
 	media_rootfs_partition=2
 
@@ -660,6 +673,15 @@ create_partitions () {
 		sfdisk_single_partition_layout
 		media_rootfs_partition=1
 		;;
+	raw_partition)
+		echo "will dd bootloader on partiton ${bootloader_ptype}"
+		sfdisk_fstype=${bootloader_ptype}
+		sfdisk_partition_layout
+		dd_uboot_partiton=1
+		media_boot_partition=2
+		media_rootfs_partition=2
+		;;
+
 	*)
 		echo "Using sfdisk to create partition layout"
 		echo "Version: `LC_ALL=C sfdisk --version`"
@@ -700,6 +722,20 @@ create_partitions () {
 	else
 		partprobe ${media}
 	fi
+
+	# delay dd'ing the bootloader until raw partition visible
+	case "${bootloader_location}" in
+        raw_partition)
+		echo "Using dd to place bootloader on partiton ${bootloader_ptype}"
+		dd_uboot_partiton=${media_prefix}${dd_uboot_partiton}
+		dd_uboot_boot
+		bootloader_installed=1
+		;;
+
+	*)
+		;;
+	esac
+
 
 	if [ "x${media_boot_partition}" = "x${media_rootfs_partition}" ] ; then
 		mount_partition_format="${ROOTFS_TYPE}"
@@ -926,6 +962,17 @@ kernel_detection () {
 		echo "Debug: image has: v${xenomai_dt_kernel}"
 		has_xenomai_kernel="enable"
 	fi
+
+	unset has_socfpga_kernel
+	unset check
+	check=$(ls "${dir_check}" | grep vmlinuz- | grep ltsi-rt | head -n 1)
+	if [ "x${check}" != "x" ] ; then
+		socfpga_dt_kernel=$(ls "${dir_check}" | grep vmlinuz- | grep ltsi-rt | head -n 1 | awk -F'vmlinuz-' '{print $2}')
+		echo "Debug: image has: v${socfpga_dt_kernel}"
+		has_socfpga_kernel="enable"
+	fi
+
+
 }
 
 kernel_select () {
@@ -972,6 +1019,10 @@ kernel_select () {
 				select_kernel="${armv7_kernel}"
 			fi
 		fi
+	fi
+
+	if [ "x${conf_kernel}" = "xsocfpga" ] ; then
+	    select_kernel=${socfpga_dt_kernel}
 	fi
 
 	if [ "${select_kernel}" ] ; then
@@ -1813,6 +1864,10 @@ if [ "${spl_name}" ] || [ "${boot_name}" ] ; then
 	else
 		dl_bootloader
 	fi
+else
+    if [ ! "${boot_name_in_rootfs}" = "x" ] ; then
+        extract_bootloader_from_rootfs
+    fi
 fi
 
 if [ ! "x${build_img_file}" = "xenable" ] ; then
