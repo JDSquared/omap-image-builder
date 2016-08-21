@@ -1,0 +1,13 @@
+# rootfs identifed by uuid
+#uuid=
+
+# overide path to FPGA bitfile
+# defaults to /lib/firmware/socfpga/soc_system.rbf
+# setting to fpgaimage= will disable boot time FPGA loading
+#fpgaimage=
+
+# command line tail
+cmdline=quiet
+
+# verbose boot
+#cmdline=earlyprintk
