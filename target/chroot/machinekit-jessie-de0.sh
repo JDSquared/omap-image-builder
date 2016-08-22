@@ -584,6 +584,12 @@ GOVERNOR="performance"
 EOFcpufrequtils
 }
 
+fix_fsck_error() {
+    sudo mkdir -p /etc/systemd/system-generators
+    sudo ln -s /dev/null /etc/systemd/system-generators/systemd-gpt-auto-generator
+    #update-initramfs -u
+}
+
 is_this_qemu q
 
 early_git_repos
@@ -608,5 +614,6 @@ remove_machinekit_pkgs # so the runtime deps are there
 #symlink_dtbo
 add_uboot_to_fstab
 set_governor
+fix_fsck_error
 unsecure_root
 #
