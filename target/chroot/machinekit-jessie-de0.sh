@@ -24,6 +24,8 @@ SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 echo sourcing ${SCRIPTPATH}/machinekit-common.sh
 
+. ${SCRIPTPATH}/machinekit-common.sh
+
 export LC_ALL=C
 
 #contains: rfs_username, release_date
