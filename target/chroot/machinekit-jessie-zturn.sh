@@ -592,7 +592,7 @@ fix_fsck_error() {
 }
 
 add_ros_apt_conf() {
-    sudo sh -c "echo deb http://sir.upc.edu/debian-robotics jessie-robotics main" >>/etc/apt/source.list.d/debian-robotics.list
+    sudo sh -c "echo deb http://sir.upc.edu/debian-robotics jessie-robotics main" >>/etc/apt/sources.list.d/debian-robotics.list
     sudo apt-key adv --keyserver pgp.rediris.es --recv-keys 63DE76AC0B6779BF || \
 	sudo apt-key adv --keyserver sks-keyservers.net --recv-keys 63DE76AC0B6779BF
 
