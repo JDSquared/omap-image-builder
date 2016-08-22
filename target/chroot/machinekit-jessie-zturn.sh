@@ -591,6 +591,19 @@ fix_fsck_error() {
     #update-initramfs -u
 }
 
+add_ros_apt_conf() {
+    sudo sh -c "echo deb http://sir.upc.edu/debian-robotics jessie-robotics main" >>/etc/apt/source.list.d/debian-robotics.list
+    sudo apt-key adv --keyserver pgp.rediris.es --recv-keys 63DE76AC0B6779BF || \
+	sudo apt-key adv --keyserver sks-keyservers.net --recv-keys 63DE76AC0B6779BF
+
+cat <<EOFpreferences >>/etc/apt/preferences.d/jesse-robotics-700
+# prefer jessie-robotics stream over rcn-ee jessie which would be default prio (500)
+Package: *
+Pin: release a=jessie-robotics
+Pin-Priority: 700
+EOFpreferences
+}
+
 is_this_qemu q
 
 early_git_repos
@@ -617,4 +630,6 @@ add_uboot_to_fstab
 set_governor
 fix_fsck_error
 unsecure_root
+add_ros_apt_conf
+
 #
