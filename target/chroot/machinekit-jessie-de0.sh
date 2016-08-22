@@ -22,9 +22,8 @@
 
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
-echo sourcing ${SCRIPTPATH}/machinekit-common.sh
-
-. ${SCRIPTPATH}/machinekit-common.sh
+echo sourcing ${SCRIPTPATH}/machinekit-common.include.sh
+. ${SCRIPTPATH}/machinekit-common.include.sh
 
 export LC_ALL=C
 
