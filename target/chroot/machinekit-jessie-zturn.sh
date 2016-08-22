@@ -604,6 +604,10 @@ Pin-Priority: 700
 EOFpreferences
 }
 
+force_depmod() {
+    sudo depmod -a
+}
+
 is_this_qemu q
 
 early_git_repos
@@ -631,5 +635,5 @@ set_governor
 fix_fsck_error
 unsecure_root
 add_ros_apt_conf
-
+force_depmod
 #
