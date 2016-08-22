@@ -490,7 +490,7 @@ dd_uboot_boot () {
 
 	echo "${uboot_name}: dd if=${uboot_blob} of=${dd_uboot_partiton} ${dd_uboot}"
 	echo "-----------------------------"
-	dd if=${TEMPDIR}/dl/${uboot_blob} of=${dd_uboot_partiton}} ${dd_uboot}
+	dd if=${TEMPDIR}/dl/${uboot_blob} of=${dd_uboot_partiton} ${dd_uboot}
 	echo "-----------------------------"
 }
 
