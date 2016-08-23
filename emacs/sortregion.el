@@ -49,10 +49,10 @@
 
 (defun do-something-region (startPos endPos)
   "Do some text processing on region.
-This command calls the external script “wc”."
+This command calls the external script “fixpkglists.py”."
 (interactive "r")
   (let (scriptName)
-    (setq scriptName "/home/mah/omap-image-builder/emacs/fixpkglists.py") ; full path to your script
+    (setq scriptName "/home/mah/src/omap-image-builder/emacs/fixpkglists.py") ; full path to your script
     (shell-command-on-region startPos endPos scriptName nil t nil t)
     ))
 

@@ -25,6 +25,8 @@ SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/bin
 SCRIPTPATH=$(dirname "$SCRIPT")
 
+echo sourcing ${SCRIPTPATH}/rcn.include.sh
+. ${SCRIPTPATH}/rcn.include.sh
 echo sourcing ${SCRIPTPATH}/machinekit-common.include.sh
 . ${SCRIPTPATH}/machinekit-common.include.sh
 
