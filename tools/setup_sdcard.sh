@@ -1092,10 +1092,10 @@ populate_rootfs () {
 
 	if [ -f "${DIR}/${ROOTFS}" ] ; then
 		if which pv > /dev/null ; then
-			pv "${DIR}/${ROOTFS}" | tar --numeric-owner --preserve-permissions -xf - -C ${TEMPDIR}/disk/
+			pv "${DIR}/${ROOTFS}" | tar ${tar_extract_opts} --numeric-owner --preserve-permissions -xf - -C ${TEMPDIR}/disk/
 		else
 			echo "pv: not installed, using tar verbose to show progress"
-			tar --numeric-owner --preserve-permissions --verbose -xf "${DIR}/${ROOTFS}" -C ${TEMPDIR}/disk/
+			tar ${tar_extract_opts} --numeric-owner --preserve-permissions --verbose -xf "${DIR}/${ROOTFS}" -C ${TEMPDIR}/disk/
 		fi
 
 		echo "Transfer of data is Complete, now syncing data to disk..."
