@@ -433,7 +433,7 @@ install_machinekit_dev() {
     echo "echo environment set up for RIP build in /home/${rfs_username}/machinekit/src" >>.bashrc
 
     # clone the machinekit repo to /home/${rfs_username}
-    git_repo="https://github.com/machinekit/machinekit"
+    git_repo="https://github.com/JDSquared/machinekit"
     git_target_dir="/home/${rfs_username}/machinekit"
     git_clone_full
 
