@@ -307,9 +307,9 @@ install_node_pkgs () {
 }
 
 early_git_repos () {
-	git_repo="https://github.com/cdsteinkuehler/machinekit-beaglebone-extras"
-	git_target_dir="opt/source/machinekit-extras"
-	git_clone
+#	git_repo="https://github.com/cdsteinkuehler/machinekit-beaglebone-extras"
+#	git_target_dir="opt/source/machinekit-extras"
+#	git_clone
 }
 
 install_git_repos () {
