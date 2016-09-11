@@ -142,6 +142,9 @@ install_build_pkgs () {
 	cd /
 }
 
+install_pip_packages {
+	echo currently none
+}
 
 unsecure_root () {
 	root_password=$(cat /etc/shadow | grep root | awk -F ':' '{print $2}')
