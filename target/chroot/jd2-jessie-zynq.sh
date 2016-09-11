@@ -55,7 +55,7 @@ setup_system
 setup_desktop
 
 #install_gem_pkgs
-install_pip_pkgs
+#install_pip_pkgs
 install_node_pkgs
 if [ -f /usr/bin/git ] ; then
 	git config --global user.email "${rfs_username}@example.com"
