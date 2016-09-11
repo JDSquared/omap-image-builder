@@ -72,7 +72,6 @@ remove_machinekit_pkgs # so the runtime deps are there
 #add_uio_pdrv_genirq_params
 symlink_dtbo
 add_uboot_to_fstab
-set_governor
 fix_fsck_error
 unsecure_root
 force_depmod_all
