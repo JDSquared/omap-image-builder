@@ -142,7 +142,7 @@ install_build_pkgs () {
 	cd /
 }
 
-install_pip_packages {
+install_pip_packages () {
 	echo currently none
 }
 
