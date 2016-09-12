@@ -40,7 +40,8 @@ add_tmpfs_to_fstab() {
 
 add_init_script() {
 	wfile="/opt/scripts/mad_startup.sh"
-	echo "#!/bin/bash" >> ${wfile}
+	sudo touch ${wfile}
+	sudo sh -c "echo '#!/bin/bash' >> ${wfile}"
 }
 
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
