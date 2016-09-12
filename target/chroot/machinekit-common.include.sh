@@ -168,6 +168,7 @@ unsecure_root () {
 
 install_machinekit_dev() {
 
+	sudo touch /var/log/linuxcnc.log
     cd "/home/${rfs_username}"
     echo ". machinekit/scripts/rip-environment" >> .bashrc
     echo "echo environment set up for RIP build in /home/${rfs_username}/machinekit/src" >>.bashrc
