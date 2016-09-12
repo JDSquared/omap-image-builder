@@ -22,17 +22,25 @@
 
 update_ethernet_interfaces() {
 	wfile="/etc/network/interfaces"
-	echo "# This file describes the network interfaces available on your system" >> ${wfile}
-	echo "# and how to activate them. For more information, see interfaces(5)." >> ${wfile}
-	echo "" >> ${wfile}
-	echo "# The loopback network interface" >> ${wfile}
-	echo "auto lo" >> ${wfile}
-	echo "iface lo inet loopback" >> ${wfile}
-	echo "" >> ${wfile}
-	echo "# The primary network interface" >> ${wfile}
-	echo "auto eth0"  >> ${wfile}
-	echo "iface eth0 inet dhcp" >> ${wfile}
+	sudo sh -c "echo '# This file describes the network interfaces available on your system' >> ${wfile}"
+	sudo sh -c "echo '# and how to activate them. For more information, see interfaces(5).' >> ${wfile}"
+	sudo sh -c "echo '' >> ${wfile}"
+	sudo sh -c "echo '# The loopback network interface' >> ${wfile}"
+	sudo sh -c "echo 'auto lo' >> ${wfile}"
+	sudo sh -c "echo 'iface lo inet loopback' >> ${wfile}"
+	sudo sh -c "echo '' >> ${wfile}"
+	sudo sh -c "echo '# The primary network interface' >> ${wfile}"
+	sudo sh -c "echo 'auto eth0'  >> ${wfile}"
+	sudo sh -c "echo 'iface eth0 inet dhcp' >> ${wfile}"
 }
+
+add_tmpfs_to_fstab() {
+    sudo sh -c "echo 'tmpfs  /tmp  tmpfs  defaults,noatime,nosuid,size=100m  0 0' >> /etc/fstab"
+    sudo sh -c "echo 'tmpfs  /var/tmp  tmpfs  defaults,noatime,nosuid,size=30m  0 0' >> /etc/fstab"
+    sudo sh -c "echo 'tmpfs  /var/log  tmpfs  defaults,noatime,nosuid,mode=0755,size=100m  0 0' >> /etc/fstab"
+    sudo sh -c "echo 'tmpfs  /var/run  tmpfs  defaults,noatime,nosuid,mode=0755,size=2m  0 0' >> /etc/fstab"
+}
+
 
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
@@ -91,4 +99,5 @@ unsecure_root
 force_depmod_all
 force_update_initramfs_all
 update_ethernet_interfaces
-DISABLE_ETH="skip"
+add_tmpfs_to_fstab
+

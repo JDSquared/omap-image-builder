@@ -1347,7 +1347,7 @@ populate_rootfs () {
 			echo "exec /sbin/getty 115200 ${SERIAL}" >> ${wfile}
 		fi
 
-		if [ "x${DISABLE_ETH}" != "xskip" ] ; then
+		if false ; then
 			wfile="${TEMPDIR}/disk/etc/network/interfaces"
 			echo "# This file describes the network interfaces available on your system" > ${wfile}
 			echo "# and how to activate them. For more information, see interfaces(5)." >> ${wfile}

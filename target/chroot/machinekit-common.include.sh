@@ -25,6 +25,8 @@ setup_system () {
 	# Fixes an issue where users cannot change ulimits when logged in via
 	# ssh, which causes some Machinekit functions to fail
 	sed -i 's/^UsePAM.*$/UsePam yes/' /etc/ssh/sshd_config
+	# Disable GSSAPI authentication
+	sed -i 's/^GSSAPIAuthentication.*$/GSSSAPIAuthentication no/' /etc/ssh/sshd_config
 
 }
 
