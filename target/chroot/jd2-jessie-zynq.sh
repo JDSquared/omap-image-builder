@@ -20,6 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+update_ethernet_interfaces() {
+	wfile="/etc/network/interfaces"
+	echo "# This file describes the network interfaces available on your system" >> ${wfile}
+	echo "# and how to activate them. For more information, see interfaces(5)." >> ${wfile}
+	echo "" >> ${wfile}
+	echo "# The loopback network interface" >> ${wfile}
+	echo "auto lo" >> ${wfile}
+	echo "iface lo inet loopback" >> ${wfile}
+	echo "" >> ${wfile}
+	echo "# The primary network interface" >> ${wfile}
+	echo "auto eth0"  >> ${wfile}
+	echo "iface eth0 inet dhcp" >> ${wfile}
+}
+
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/bin
@@ -76,3 +90,5 @@ fix_fsck_error
 unsecure_root
 force_depmod_all
 force_update_initramfs_all
+update_ethernet_interfaces
+DISABLE_ETH="skip"

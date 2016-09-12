@@ -133,7 +133,6 @@ early_git_repos () {
 }
 
 install_git_repos () {
-
 	echo currently none
 }
 
