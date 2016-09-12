@@ -300,7 +300,10 @@ install_machinekit_dev() {
     # fix perms
     chown -R ${rfs_username}:${rfs_username} ${git_target_dir} /home/${rfs_username}/.bashrc
 
-    # except what is needed
+		sudo cp rtapi/rsyslogd-linuxcnc.conf /etc/rsyslog.d/linuxcnc.conf
+		sudo cp rtapi/shmdrv/limits.d-machinekit.conf /etc/security/limits
+		
+		# except what is needed
     sudo make setuid
 }
 
