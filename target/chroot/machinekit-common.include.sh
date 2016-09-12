@@ -26,8 +26,7 @@ setup_system () {
 	# ssh, which causes some Machinekit functions to fail
 	sed -i 's/^UsePAM.*$/UsePam yes/' /etc/ssh/sshd_config
 	# Disable GSSAPI authentication
-	sed -i 's/^GSSAPIAuthentication.*$/GSSSAPIAuthentication no/' /etc/ssh/sshd_config
-
+	echo "GSSAPIAuthentication no" >> /etc/ssh/sshd_config
 }
 
 setup_desktop () {
