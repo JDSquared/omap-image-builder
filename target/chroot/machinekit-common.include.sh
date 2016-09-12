@@ -75,6 +75,62 @@ cleanup_npm_cache () {
 	fi
 }
 
+install_gem_pkgs () {
+	if [ -f /usr/bin/gem ] ; then
+		echo "Installing gem packages"
+		echo "debug: gem: [`gem --version`]"
+		gem_wheezy="--no-rdoc --no-ri"
+		gem_jessie="--no-document"
+
+		echo "gem: [beaglebone]"
+		gem install beaglebone || true
+
+		echo "gem: [jekyll ${gem_jessie}]"
+		gem install jekyll ${gem_jessie} || true
+	fi
+}
+
+install_pip_pkgs () {
+	if [ -f /usr/bin/python ] ; then
+		wget https://bootstrap.pypa.io/get-pip.py || true
+		if [ -f get-pip.py ] ; then
+			python get-pip.py
+			rm -f get-pip.py || true
+
+			if [ -f /usr/local/bin/pip ] ; then
+				echo "Installing pip packages"
+				#Fixed in git, however not pushed to pip yet...(use git and install)
+				#libpython2.7-dev
+				#pip install Adafruit_BBIO
+				echo currently none
+				# git_repo="https://github.com/adafruit/adafruit-beaglebone-io-python.git"
+				# git_target_dir="/opt/source/adafruit-beaglebone-io-python"
+				# git_clone
+				# if [ -f ${git_target_dir}/.git/config ] ; then
+				# 	cd ${git_target_dir}/
+				# 	python setup.py install
+				# fi
+				# pip install --upgrade PyBBIO
+				# pip install iw_parse
+			fi
+		fi
+	fi
+}
+
+cleanup_npm_cache () {
+	if [ -d /root/tmp/ ] ; then
+		rm -rf /root/tmp/ || true
+	fi
+
+	if [ -d /root/.npm ] ; then
+		rm -rf /root/.npm || true
+	fi
+
+	if [ -f /home/${rfs_username}/.npmrc ] ; then
+		rm -f /home/${rfs_username}/.npmrc || true
+	fi
+}
+
 install_node_pkgs () {
 	if [ -f /usr/bin/npm ] ; then
 		cd /
@@ -123,8 +179,60 @@ install_node_pkgs () {
 		#echo "--------------------------------"
 
 		sync
+
+		if [ -f /usr/local/bin/jekyll ] ; then
+			git_repo="https://github.com/beagleboard/bone101"
+			git_target_dir="/var/lib/cloud9"
+
+			if [ "x${bone101_git_sha}" = "x" ] ; then
+				git_clone
+			else
+				git_clone_full
+			fi
+
+			if [ -f ${git_target_dir}/.git/config ] ; then
+				chown -R ${rfs_username}:${rfs_username} ${git_target_dir}
+				cd ${git_target_dir}/
+
+				if [ ! "x${bone101_git_sha}" = "x" ] ; then
+					git checkout ${bone101_git_sha} -b tmp-production
+				fi
+
+				echo "jekyll pre-building bone101"
+				/usr/local/bin/jekyll build --destination bone101
+			fi
+
+			wfile="/lib/systemd/system/jekyll-autorun.service"
+			echo "[Unit]" > ${wfile}
+			echo "Description=jekyll autorun" >> ${wfile}
+			echo "ConditionPathExists=|/var/lib/cloud9" >> ${wfile}
+			echo "" >> ${wfile}
+			echo "[Service]" >> ${wfile}
+			echo "WorkingDirectory=/var/lib/cloud9" >> ${wfile}
+			echo "ExecStart=/usr/local/bin/jekyll build --destination bone101 --watch" >> ${wfile}
+			echo "SyslogIdentifier=jekyll-autorun" >> ${wfile}
+			echo "" >> ${wfile}
+			echo "[Install]" >> ${wfile}
+			echo "WantedBy=multi-user.target" >> ${wfile}
+
+			systemctl enable jekyll-autorun.service || true
+
+			if [ -d /etc/apache2/ ] ; then
+				#bone101 takes over port 80, so shove apache/etc to 8080:
+				if [ -f /etc/apache2/ports.conf ] ; then
+					sed -i -e 's:80:8080:g' /etc/apache2/ports.conf
+				fi
+				if [ -f /etc/apache2/sites-enabled/000-default ] ; then
+					sed -i -e 's:80:8080:g' /etc/apache2/sites-enabled/000-default
+				fi
+				if [ -f /var/www/html/index.html ] ; then
+					rm -rf /var/www/html/index.html || true
+				fi
+			fi
+		fi
 	fi
 }
+
 
 early_git_repos () {
 	echo currently none
@@ -140,10 +248,6 @@ install_git_repos () {
 install_build_pkgs () {
 	cd /opt/
 	cd /
-}
-
-install_pip_packages () {
-	echo currently none
 }
 
 unsecure_root () {
@@ -166,8 +270,7 @@ unsecure_root () {
 }
 
 install_machinekit_dev() {
-
-	sudo touch /var/log/linuxcnc.log
+		sudo touch /var/log/linuxcnc.log
     cd "/home/${rfs_username}"
     echo ". machinekit/scripts/rip-environment" >> .bashrc
     echo "echo environment set up for RIP build in /home/${rfs_username}/machinekit/src" >>.bashrc
@@ -175,7 +278,7 @@ install_machinekit_dev() {
     # clone the machinekit repo to /home/${rfs_username}
     git_repo="https://github.com/JDSquared/machinekit"
     git_target_dir="/home/${rfs_username}/machinekit"
-	git_branch="jd2"
+		git_branch="jd2"
     git_clone_branch
 
     # do source install steps as per docs
@@ -185,7 +288,7 @@ install_machinekit_dev() {
     cd ${git_target_dir}
 
     debian/configure -pr
-    sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -y -qq --no-install-recommends"
+    sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -qq --no-install-recommends"
 
     cd src
     ./autogen.sh
