@@ -1325,7 +1325,12 @@ populate_rootfs () {
 			echo "${rootfs_drive}  /  ${ROOTFS_TYPE}  noatime,errors=remount-ro  0  1" >> ${wfile}
 		fi
 
+		echo "/dev/mmcblk0p1  /boot/uboot  auto  defaults  0  2" >> ${wfile}
 		echo "debugfs  /sys/kernel/debug  debugfs  defaults  0  0" >> ${wfile}
+		echo "tmpfs  /tmp  tmpfs  defaults,noatime,nosuid,size=100m  0 0" >> ${wfile}
+		echo "tmpfs  /var/tmp  tmpfs  defaults,noatime,nosuid,size=30m  0 0" >> ${wfile}
+		echo "tmpfs  /var/log  tmpfs  defaults,noatime,nosuid,mode=0755,size=100m  0 0" >> ${wfile}
+		echo "tmpfs  /var/run  tmpfs  defaults,noatime,nosuid,mode=0755,size=2m  0 0" >> ${wfile}
 
 		if [ "x${distro}" = "xDebian" ] ; then
 			#/etc/inittab is gone in Jessie with systemd...
@@ -1460,15 +1465,15 @@ populate_rootfs () {
 		echo "" >> ${TEMPDIR}/disk${file}
 	fi
 
-	if [ ! -f ${TEMPDIR}/disk/opt/scripts/boot/generic-startup.sh ] ; then
-		git clone https://github.com/RobertCNelson/boot-scripts ${TEMPDIR}/disk/opt/scripts/ --depth 1
-		sudo chown -R 1000:1000 ${TEMPDIR}/disk/opt/scripts/
-	else
-		cd ${TEMPDIR}/disk/opt/scripts/
-		git pull
-		cd -
-		sudo chown -R 1000:1000 ${TEMPDIR}/disk/opt/scripts/
-	fi
+#	if false; then #[ ! -f ${TEMPDIR}/disk/opt/scripts/boot/generic-startup.sh ] ; then
+#		git clone https://github.com/RobertCNelson/boot-scripts ${TEMPDIR}/disk/opt/scripts/ --depth 1
+#		sudo chown -R 1000:1000 ${TEMPDIR}/disk/opt/scripts/
+#	else
+#		cd ${TEMPDIR}/disk/opt/scripts/
+#		git pull
+#		cd -
+#		sudo chown -R 1000:1000 ${TEMPDIR}/disk/opt/scripts/
+#	fi
 
 	if [ "x${drm}" = "xomapdrm" ] ; then
 		wfile="/etc/X11/xorg.conf"

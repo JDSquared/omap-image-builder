@@ -22,9 +22,6 @@
 
 update_ethernet_interfaces() {
 	wfile="/etc/network/interfaces"
-	sudo sh -c "echo '# This file describes the network interfaces available on your system' >> ${wfile}"
-	sudo sh -c "echo '# and how to activate them. For more information, see interfaces(5).' >> ${wfile}"
-	sudo sh -c "echo '' >> ${wfile}"
 	sudo sh -c "echo '# The loopback network interface' >> ${wfile}"
 	sudo sh -c "echo 'auto lo' >> ${wfile}"
 	sudo sh -c "echo 'iface lo inet loopback' >> ${wfile}"
@@ -99,5 +96,5 @@ unsecure_root
 force_depmod_all
 force_update_initramfs_all
 update_ethernet_interfaces
-add_tmpfs_to_fstab
+#add_tmpfs_to_fstab
 

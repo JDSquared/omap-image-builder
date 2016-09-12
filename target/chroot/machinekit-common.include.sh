@@ -184,7 +184,7 @@ install_machinekit_dev() {
     cd ${git_target_dir}
 
     debian/configure -pr
-    sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -qq --no-install-recommends"
+    sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -y -qq --no-install-recommends"
 
     cd src
     ./autogen.sh
