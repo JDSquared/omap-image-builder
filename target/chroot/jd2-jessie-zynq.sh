@@ -78,7 +78,7 @@ setup_system
 setup_desktop
 
 #install_gem_pkgs
-#install_pip_pkgs
+install_pip_pkgs
 install_node_pkgs
 if [ -f /usr/bin/git ] ; then
 	git config --global user.email "${rfs_username}@example.com"
@@ -100,5 +100,5 @@ unsecure_root
 force_depmod_all
 force_update_initramfs_all
 update_ethernet_interfaces
+add_init_script
 #add_tmpfs_to_fstab
-
