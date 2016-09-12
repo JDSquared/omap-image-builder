@@ -40,6 +40,7 @@ add_tmpfs_to_fstab() {
 
 add_init_script() {
 	wfile="/opt/scripts/mad_startup.sh"
+	mkdir -p /opt/scripts
 	sudo touch ${wfile}
 	sudo sh -c "echo '#!/bin/bash' >> ${wfile}"
 }
