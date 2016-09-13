@@ -1328,9 +1328,7 @@ populate_rootfs () {
 		echo "/dev/mmcblk0p1  /boot/uboot  auto  defaults  0  2" >> ${wfile}
 		echo "debugfs  /sys/kernel/debug  debugfs  defaults  0  0" >> ${wfile}
 		echo "tmpfs  /tmp  tmpfs  defaults,noatime,nosuid,size=100m  0 0" >> ${wfile}
-		echo "tmpfs  /var/tmp  tmpfs  defaults,noatime,nosuid,size=30m  0 0" >> ${wfile}
 		echo "tmpfs  /var/log  tmpfs  defaults,noatime,nosuid,mode=0755,size=100m  0 0" >> ${wfile}
-		echo "tmpfs  /var/run  tmpfs  defaults,noatime,nosuid,mode=0755,size=2m  0 0" >> ${wfile}
 
 		if [ "x${distro}" = "xDebian" ] ; then
 			#/etc/inittab is gone in Jessie with systemd...
