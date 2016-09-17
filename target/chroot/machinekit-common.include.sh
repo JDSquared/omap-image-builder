@@ -278,7 +278,7 @@ install_machinekit_dev() {
     # clone the machinekit repo to /home/${rfs_username}
     git_repo="https://github.com/JDSquared/machinekit"
     git_target_dir="/home/${rfs_username}/machinekit"
-		git_branch="jd2"
+		git_branch="master"
     git_clone_branch
 
     # do source install steps as per docs
@@ -302,7 +302,7 @@ install_machinekit_dev() {
 
 		sudo cp rtapi/rsyslogd-linuxcnc.conf /etc/rsyslog.d/linuxcnc.conf
 		sudo cp rtapi/shmdrv/limits.d-machinekit.conf /etc/security/limits
-		
+
 		# except what is needed
     sudo make setuid
 }
