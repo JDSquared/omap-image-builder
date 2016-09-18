@@ -38,13 +38,6 @@ add_tmpfs_to_fstab() {
     sudo sh -c "echo 'tmpfs  /var/run  tmpfs  defaults,noatime,nosuid,mode=0755,size=2m  0 0' >> /etc/fstab"
 }
 
-add_init_script() {
-	wfile="/opt/scripts/mad_startup.sh"
-	mkdir -p /opt/scripts
-	sudo touch ${wfile}
-	sudo sh -c "echo '#!/bin/bash' >> ${wfile}"
-}
-
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/bin
@@ -102,5 +95,4 @@ unsecure_root
 force_depmod_all
 force_update_initramfs_all
 update_ethernet_interfaces
-add_init_script
 #add_tmpfs_to_fstab

@@ -4,4 +4,4 @@ uname_r=4.4.0-rt3-jd2-g1afba34
 
 dtb=zynq-zturn.dtb
 
-cmdline=
+cmdline=quiet

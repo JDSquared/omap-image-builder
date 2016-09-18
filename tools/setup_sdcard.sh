@@ -1463,15 +1463,15 @@ populate_rootfs () {
 		echo "" >> ${TEMPDIR}/disk${file}
 	fi
 
-#	if false; then #[ ! -f ${TEMPDIR}/disk/opt/scripts/boot/generic-startup.sh ] ; then
-#		git clone https://github.com/RobertCNelson/boot-scripts ${TEMPDIR}/disk/opt/scripts/ --depth 1
-#		sudo chown -R 1000:1000 ${TEMPDIR}/disk/opt/scripts/
-#	else
-#		cd ${TEMPDIR}/disk/opt/scripts/
-#		git pull
-#		cd -
-#		sudo chown -R 1000:1000 ${TEMPDIR}/disk/opt/scripts/
-#	fi
+  if [ ! -f ${TEMPDIR}/disk/opt/scripts/boot/generic-startup.sh ] ; then
+		git clone https://github.com/JDSquared/boot-scripts ${TEMPDIR}/disk/opt/scripts/ --depth 1
+		sudo chown -R 1000:1000 ${TEMPDIR}/disk/opt/scripts/
+	else
+		cd ${TEMPDIR}/disk/opt/scripts/
+	  git pull
+		cd -
+	  sudo chown -R 1000:1000 ${TEMPDIR}/disk/opt/scripts/
+	fi
 
 	if [ "x${drm}" = "xomapdrm" ] ; then
 		wfile="/etc/X11/xorg.conf"
@@ -1669,7 +1669,7 @@ check_dtb_board () {
 
 usage () {
 	echo "usage: sudo $(basename $0) --mmc /dev/sdX --dtb <dev board>"
-	#tabed to match 
+	#tabed to match
 		cat <<-__EOF__
 			-----------------------------
 			Bugs email: "bugs at rcn-ee.com"
