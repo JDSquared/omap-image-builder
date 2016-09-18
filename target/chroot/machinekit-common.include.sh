@@ -282,7 +282,7 @@ install_machinekit_dev() {
     git_clone_branch
 
     # do source install steps as per docs
-    apt-get install git dpkg-dev
+    apt-get install git dpkg-dev libudev-dev
     apt-get install --yes --no-install-recommends devscripts equivs
 
     cd ${git_target_dir}
