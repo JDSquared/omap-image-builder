@@ -981,6 +981,15 @@ kernel_detection () {
 		echo "Debug: image has: v${socfpga_dt_kernel}"
 		has_socfpga_kernel="enable"
 	fi
+
+	unset has_zynq_kernel
+	unset check
+	check=$(ls "${dir_check}" | grep vmlinuz- | grep ltsi-rt | head -n 1)
+	if [ "x${check}" != "x" ] ; then
+		zynq_dt_kernel=$(ls "${dir_check}" | grep vmlinuz- | grep rt27-jd2 | head -n 1 | awk -F'vmlinuz-' '{print $2}')
+		echo "Debug: image has: v${zynqrt_dt_kernel}"
+		has_zynq_kernel="enable"
+	fi
 }
 
 kernel_select () {
@@ -1031,6 +1040,10 @@ kernel_select () {
 
 	if [ "x${conf_kernel}" = "xsocfpga" ] ; then
 	    select_kernel=${socfpga_dt_kernel}
+	fi
+
+	if [ "x${conf_kernel}" = "xzynq" ] ; then
+	    select_kernel=${zynq_dt_kernel}
 	fi
 
 	if [ "${select_kernel}" ] ; then
