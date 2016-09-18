@@ -984,10 +984,10 @@ kernel_detection () {
 
 	unset has_zynq_kernel
 	unset check
-	check=$(ls "${dir_check}" | grep vmlinuz- | grep ltsi-rt | head -n 1)
+	check=$(ls "${dir_check}" | grep vmlinuz- | grep rt27-jd2 | head -n 1)
 	if [ "x${check}" != "x" ] ; then
 		zynq_dt_kernel=$(ls "${dir_check}" | grep vmlinuz- | grep rt27-jd2 | head -n 1 | awk -F'vmlinuz-' '{print $2}')
-		echo "Debug: image has: v${zynqrt_dt_kernel}"
+		echo "Debug: image has: v${zynq_dt_kernel}"
 		has_zynq_kernel="enable"
 	fi
 }
