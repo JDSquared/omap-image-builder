@@ -28,7 +28,11 @@ update_ethernet_interfaces() {
 	sudo sh -c "echo '' >> ${wfile}"
 	sudo sh -c "echo '# The primary network interface' >> ${wfile}"
 	sudo sh -c "echo 'auto eth0'  >> ${wfile}"
-	sudo sh -c "echo 'iface eth0 inet dhcp' >> ${wfile}"
+	sudo sh -c "echo '#iface eth0 inet dhcp' >> ${wfile}"
+	sudo sh -c "echo 'iface eth0 inet static' >> ${wfile}"
+	sudo sh -c "echo '  address 172.29.215.3' >> ${wfile}"
+	sudo sh -c "echo '  netmask 255.255.255.128' >> ${wfile}"
+	sudo sh -c "echo '  gateway 172.29.215.2' >> ${wfile}"
 }
 
 add_tmpfs_to_fstab() {
