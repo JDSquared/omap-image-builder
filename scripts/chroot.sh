@@ -460,6 +460,8 @@ if [ "x${deb_arch}" = "xarmhf" ] ; then
 			#while bb-customizations installes "generic-board-startup.service" other boards/configs could use this default.
 			sudo cp "${OIB_DIR}/target/init_scripts/systemd-generic-board-startup.service" "${tempdir}/lib/systemd/system/generic-board-startup.service"
 			sudo chown root:root "${tempdir}/lib/systemd/system/generic-board-startup.service"
+			sudo cp "${OIB_DIR}/target/init_scripts/systemd-mkl.service" "${tempdir}/lib/systemd/system/mkl.service"
+			sudo chown root:root "${tempdir}/lib/systemd/system/mkl.service"
 #			sudo cp "${OIB_DIR}/target/init_scripts/systemd-capemgr.service" "${tempdir}/lib/systemd/system/capemgr.service"
 #			sudo chown root:root "${tempdir}/lib/systemd/system/capemgr.service"
 #			sudo cp "${OIB_DIR}/target/init_scripts/capemgr" "${tempdir}/etc/default/"

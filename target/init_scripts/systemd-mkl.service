@@ -1,0 +1,12 @@
+[Unit]
+Description=Start the mklauncher announcement program
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /opt/scripts/boot/mkl.sh
+User=mdadmn
+
+[Install]
+WantedBy=multi-user.target
+
