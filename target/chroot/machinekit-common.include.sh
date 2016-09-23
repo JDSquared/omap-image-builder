@@ -322,6 +322,15 @@ symlink_dtbo() {
     ln -s /usr/lib/linux-image-zynq-rt /boot/dtbs
 }
 
+set_governor() {
+# https://github.com/machinekit/mksocfpga/issues/20#issuecomment-241215541
+cat <<EOFcpufrequtils >>/etc/default/cpufrequtils
+# valid values: userspace conservative powersave ondemand performance
+# get them from cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
+GOVERNOR="performance"
+EOFcpufrequtils
+}
+
 add_uboot_to_fstab() {
     sudo sh -c "echo '/dev/mmcblk0p1  /boot/uboot  auto  defaults  0  2' >> /etc/fstab"
 }
