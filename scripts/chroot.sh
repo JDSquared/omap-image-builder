@@ -892,6 +892,10 @@ cat > "${DIR}/chroot_script.sh" <<-__EOF__
 			systemctl enable capemgr.service || true
 		fi
 
+		if [ -f /lib/systemd/system/mkl.service ] ; then
+			systemctl enable mkl.service || true
+		fi
+
 		if [ ! "x${rfs_opt_scripts}" = "x" ] ; then
 			mkdir -p /opt/scripts/ || true
 
