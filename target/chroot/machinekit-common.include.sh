@@ -288,6 +288,12 @@ install_machinekit_dev() {
 
     cd ${git_target_dir}
 
+		# Grab the configs
+		git_repo="https://github.com/JDSquared/mad_configs.git"
+		git_target_dir="/home/${rfs_username}/machinekit/configs/by_machine"
+		git_branch="master"
+		git_clone_branch
+
     debian/configure -pr
     sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -qq --no-install-recommends"
 
