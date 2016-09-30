@@ -286,13 +286,16 @@ install_machinekit_dev() {
     sudo apt-get install git dpkg-dev libudev-dev
     sudo apt-get install --yes --no-install-recommends devscripts equivs
 
-    cd ${git_target_dir}
-
 		# Grab the configs
 		git_repo="https://github.com/JDSquared/mad_configs.git"
 		git_target_dir="/home/${rfs_username}/machinekit/configs/by_machine/jd2"
 		git_branch="master"
 		git_clone_branch
+
+		# Put the target dir var back for building mk
+    git_target_dir="/home/${rfs_username}/machinekit"
+
+		cd ${git_target_dir}
 
     debian/configure -pr
     sudo DEBIAN_FRONTEND=noninteractive mk-build-deps -ir -t "apt-get -qq --no-install-recommends"
