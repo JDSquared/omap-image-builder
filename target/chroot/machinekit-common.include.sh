@@ -290,7 +290,7 @@ install_machinekit_dev() {
 
 		# Grab the configs
 		git_repo="https://github.com/JDSquared/mad_configs.git"
-		git_target_dir="/home/${rfs_username}/machinekit/configs/by_machine"
+		git_target_dir="/home/${rfs_username}/machinekit/configs/by_machine/jd2"
 		git_branch="master"
 		git_clone_branch
 
