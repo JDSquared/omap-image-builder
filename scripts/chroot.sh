@@ -462,10 +462,7 @@ if [ "x${deb_arch}" = "xarmhf" ] ; then
 			sudo chown root:root "${tempdir}/lib/systemd/system/generic-board-startup.service"
 			sudo cp "${OIB_DIR}/target/init_scripts/systemd-mkl.service" "${tempdir}/lib/systemd/system/mkl.service"
 			sudo chown root:root "${tempdir}/lib/systemd/system/mkl.service"
-#			sudo cp "${OIB_DIR}/target/init_scripts/systemd-capemgr.service" "${tempdir}/lib/systemd/system/capemgr.service"
-#			sudo chown root:root "${tempdir}/lib/systemd/system/capemgr.service"
-#			sudo cp "${OIB_DIR}/target/init_scripts/capemgr" "${tempdir}/etc/default/"
-#			sudo chown root:root "${tempdir}/etc/default/capemgr"
+			sudo touch "${tempdir}/home/mdadmn/timectl.regenerate" || true
 			distro="Debian"
 			;;
 		esac
