@@ -1214,6 +1214,11 @@ if [ -d "${tempdir}/etc/ssh/" -a "x${keep_ssh_keys}" = "x" ] ; then
 	sudo touch "${tempdir}/etc/ssh/ssh.regenerate" || true
 fi
 
+if [ -d "${tempdir}/home/${rfs_username}"] ; then
+	#Remove pre-generated uuid, these will be regenerated on first bootup...
+	sudo touch "${tempdir}/home/${rfs_username}/mkuuid.regenerate" || true
+fi
+
 #ID.txt:
 if [ -f "${tempdir}/etc/dogtag" ] ; then
 	sudo cp "${tempdir}/etc/dogtag" "${DIR}/deploy/${export_filename}/ID.txt"
