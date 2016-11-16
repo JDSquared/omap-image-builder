@@ -1214,9 +1214,9 @@ if [ -d "${tempdir}/etc/ssh/" -a "x${keep_ssh_keys}" = "x" ] ; then
 	sudo touch "${tempdir}/etc/ssh/ssh.regenerate" || true
 fi
 
-if [ -d "${tempdir}/opt"] ; then
+if [ -d "${tempdir}/etc"] ; then
 	#Remove pre-generated uuid, these will be regenerated on first bootup...
-	sudo touch "${tempdir}/opt/mkuuid.regenerate" || true
+	sudo touch "${tempdir}/etc/mkuuid.regenerate" || true
 fi
 
 #ID.txt:
