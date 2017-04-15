@@ -305,7 +305,7 @@ install_machinekit_dev() {
     ./configure
 
     # build it
-    make -j4
+    make -j2
 
     # fix perms
     chown -R ${rfs_username}:${rfs_username} ${git_target_dir} /home/${rfs_username}/.bashrc
