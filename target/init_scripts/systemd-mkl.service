@@ -3,8 +3,9 @@ Description=Start the mklauncher announcement program
 After=syslog.target network.target
 
 [Service]
-Type=simple
-ExecStart=/bin/bash /opt/scripts/boot/mkl.sh
+Type=forking
+ExecStart=/bin/bash /opt/scripts/boot/mkl.sh start
+ExecStop=/bin/bash /opt/scripts/boot/mkl.sh stop
 User=mdadmn
 
 [Install]
