@@ -377,6 +377,12 @@ if [ "x${repo_external}" = "xenable" ] ; then
 	echo "#deb-src [arch=${repo_external_arch}] ${repo_external_server} ${repo_external_dist} ${repo_external_components}" >> ${wfile}
 fi
 
+if [ "x${repo_mk}" = "xenable" ] ; then
+	echo "" >> ${wfile}
+	echo "deb [arch=${repo_mk_arch}] ${repo_mk_server} ${repo_mk_dist} ${repo_mk_components}" >> ${wfile}
+	echo "#deb-src [arch=${repo_mk_arch}] ${repo_mk_server} ${repo_mk_dist} ${repo_mk_components}" >> ${wfile}
+fi
+
 if [ "x${repo_flat}" = "xenable" ] ; then
 	echo "" >> ${wfile}
 	for component in "${repo_flat_components[@]}" ; do
@@ -415,6 +421,12 @@ fi
 if [ "x${repo_external}" = "xenable" ] ; then
 	if [ ! "x${repo_external_key}" = "x" ] ; then
 		sudo cp -v "${OIB_DIR}/target/keyring/${repo_external_key}" "${tempdir}/tmp/${repo_external_key}"
+	fi
+fi
+
+if [ "x${repo_mk}" = "xenable" ] ; then
+	if [ ! "x${repo_mk_key}" = "x" ] ; then
+		sudo cp -v "${OIB_DIR}/target/keyring/${repo_mk_key}" "${tempdir}/tmp/${repo_mk_key}"
 	fi
 fi
 
@@ -584,6 +596,10 @@ cat > "${DIR}/chroot_script.sh" <<-__EOF__
 			apt-key add /tmp/${repo_external_key}
 			rm -f /tmp/${repo_external_key} || true
 		fi
+		if [ "x${repo_mk}" = "xenable" ] ; then
+			apt-key add /tmp/${repo_mk_key}
+			rm -f /tmp/${repo_mk_key} || true
+		fi
 		if [ "x${repo_flat}" = "xenable" ] ; then
 			apt-key add /tmp/${repo_flat_key}
 			rm -f /tmp/${repo_flat_key} || true
@@ -646,6 +662,11 @@ cat > "${DIR}/chroot_script.sh" <<-__EOF__
 			echo "Log: (chroot) Installing (from external repo): ${repo_external_pkg_list}"
 			apt-get -y --force-yes install ${repo_external_pkg_list}
 		fi
+
+		if [ ! "x${repo_mk_pkg_list}" = "x" ] ; then
+			echo "Log: (chroot) Installing (from mk repo): ${repo_mk_pkg_list}"
+			apt-get -y --force-yes install ${repo_mk_pkg_list}
+		fi
 	}
 
 	system_tweaks () {
@@ -694,7 +715,7 @@ cat > "${DIR}/chroot_script.sh" <<-__EOF__
 		apt-get -y --force-yes install deborphan
 
 		# Prevent deborphan from removing explicitly required packages
-		deborphan -A ${deb_additional_pkgs} ${repo_external_pkg_list} ${deb_include}
+		deborphan -A ${deb_additional_pkgs} ${repo_external_pkg_list} ${repo_mk_pkg_list} ${deb_include}
 
 		deborphan | xargs apt-get -y remove --purge
 
