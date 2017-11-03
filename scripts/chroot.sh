@@ -469,11 +469,12 @@ if [ "x${deb_arch}" = "xarmhf" ] ; then
 			distro="Debian"
 			;;
 		jessie|stretch)
+			# Boot package now installs startup services
 			#while bb-customizations installes "generic-board-startup.service" other boards/configs could use this default.
-			sudo cp "${OIB_DIR}/target/init_scripts/systemd-generic-board-startup.service" "${tempdir}/lib/systemd/system/generic-board-startup.service"
-			sudo chown root:root "${tempdir}/lib/systemd/system/generic-board-startup.service"
-			sudo cp "${OIB_DIR}/target/init_scripts/systemd-mkl.service" "${tempdir}/lib/systemd/system/mkl.service"
-			sudo chown root:root "${tempdir}/lib/systemd/system/mkl.service"
+			#sudo cp "${OIB_DIR}/target/init_scripts/systemd-generic-board-startup.service" "${tempdir}/lib/systemd/system/generic-board-startup.service"
+			#sudo chown root:root "${tempdir}/lib/systemd/system/generic-board-startup.service"
+			#sudo cp "${OIB_DIR}/target/init_scripts/systemd-mkl.service" "${tempdir}/lib/systemd/system/mkl.service"
+			#sudo chown root:root "${tempdir}/lib/systemd/system/mkl.service"
 			distro="Debian"
 			;;
 		esac
@@ -901,17 +902,17 @@ cat > "${DIR}/chroot_script.sh" <<-__EOF__
 			;;
 		esac
 
-		if [ -f /lib/systemd/system/generic-board-startup.service ] ; then
-			systemctl enable generic-board-startup.service || true
-		fi
+#		if [ -f /lib/systemd/system/generic-board-startup.service ] ; then
+#			systemctl enable generic-board-startup.service || true
+#		fi
 
 		if [ -f /lib/systemd/system/capemgr.service ] ; then
 			systemctl enable capemgr.service || true
 		fi
 
-		if [ -f /lib/systemd/system/mkl.service ] ; then
-			systemctl enable mkl.service || true
-		fi
+#		if [ -f /lib/systemd/system/mkl.service ] ; then
+#			systemctl enable mkl.service || true
+#		fi
 
 		if [ ! "x${rfs_opt_scripts}" = "x" ] ; then
 			mkdir -p /opt/scripts/ || true

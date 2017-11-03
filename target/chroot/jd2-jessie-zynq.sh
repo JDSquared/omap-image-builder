@@ -89,8 +89,8 @@ fi
 
 #install_build_pkgs
 #other_source_links
-install_machinekit_dev
-remove_machinekit_pkgs # so the runtime deps are there
+#install_machinekit_dev
+#remove_machinekit_pkgs # so the runtime deps are there
 symlink_dtbo
 add_uboot_to_fstab
 fix_fsck_error
